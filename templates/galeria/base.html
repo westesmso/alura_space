@@ -16,12 +16,12 @@
   </head>
 
   <body>
+    {% include 'galeria/partials/_navbar.html' %}
     <div class="pagina-inicial">
-      {% include 'galeria/partials/_navbar.html' %}
-      {% block content %}
+    {% block content %}
 
       {% endblock %}
-      {% include 'galeria/partials/_footer.html' %}
     </div>
+    {% include 'galeria/partials/_footer.html' %}
   </body>
 </html>
