@@ -1,10 +1,6 @@
 from django.db import models
-# Create your models here.
-class Fotografia(models.Model):
-    nome = models.CharField(max_length=100, null=False, blank=False)
-    legenda = models.CharField(max_length=200, null=False, blank=False)
-    descricao = models.TextField(null=False, blank=False)
-    foto_nome = models.CharField(max_length=100, null=False, blank=False)
 
-    def __str__(self):
-        return f"Fotografia [nome={self.nome}, legenda={self.legenda}, descricao={self.descricao}, foto_nome={self.foto_nome}]"
+# Create your models here.
+from galeria.modelos.fotografia import Fotografia
+from galeria.modelos.carro import Carro
+    
