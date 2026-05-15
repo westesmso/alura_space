@@ -1,0 +1,17 @@
+services:
+  web:
+    image: westesmso/alura_space:latest
+    build: .
+    container_name: alura_space
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - DEBUG=True
+      - PYTHONUNBUFFERED=1
+    env_file:
+      - .env
