@@ -23,20 +23,26 @@
       </ul>
     </section>
     <section class="galeria">
-
       <div class="cards">
         <h2 class="cards__titulo">Navegue pela galeria</h2>
         <ul class="cards__lista">
-          {% if cards %}
-          {% for fotografia in cards %}
+          {% if cards %} {% for fotografia in cards %}
           <li class="card">
+            {% if not fotografia.foto %}
+            <img
+              class="card__imagem"
+              src="{% static '/assets/imagens/galeria/not-found.png' %}"
+              alt="foto"
+            />
+            {% else %}
             <a href="{% url 'imagem' fotografia.id %}">
               <img
-              class="card__imagem"
-              src="{% static 'assets/imagens/galeria/' %}{{ fotografia.foto_nome }}"
-              alt="foto"
+                class="card__imagem"
+                src="{{ fotografia.foto.url }}"
+                alt="foto"
               />
             </a>
+            {% endif %}
             <span class="card__tag">Estrelas</span>
             <div class="card__info">
               <p class="card__titulo">{{ fotografia.nome }}</p>
@@ -51,13 +57,11 @@
               </div>
             </div>
           </li>
-          {% endfor %}
-          {% else %}
+          {% endfor %} {% else %}
           <li class="card">Nenhuma fotografia encontrada.</li>
           {% endif %}
         </ul>
       </div>
-
     </section>
   </section>
 </main>
