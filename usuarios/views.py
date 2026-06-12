@@ -1,10 +1,32 @@
 from django.shortcuts import render, redirect
 
 from usuarios.forms import LoginForms, CadastroForms
+
 from django.contrib.auth.models import User
+from django.contrib import auth, messages 
 
 def login(request):
     form = LoginForms()
+    
+    if request.method == 'POST':
+        form = LoginForms(request.POST)
+        
+        if form.is_valid():
+            nome_login = form["nome_login"].value()
+            senha = form["senha"].value()
+            usuario = auth.authenticate(
+                request,
+                username=nome_login,
+                password=senha
+            )
+            if usuario is not None:
+                auth.login(request, usuario)
+                messages.success(request, f'Login realizado com sucesso, {nome_login}!')
+                return redirect('index')
+            else:
+                messages.error(request, 'Nome de usuário ou senha inválidos.')
+                return redirect('login')
+            
     return render(request, 'users/login.html', {'form': form})
 
 def register(request):
@@ -15,6 +37,7 @@ def register(request):
         
         if form.is_valid():
             if form["senha1"].value() != form["senha2"].value():
+                messages.error(request, 'As senhas não coincidem.')
                 return redirect('register')
             
             nome = form["nome_cadastro"].value()
@@ -22,6 +45,7 @@ def register(request):
             senha = form["senha1"].value()
             
             if User.objects.filter(username=nome).exists():
+                messages.error(request, 'Nome de usuário já existe.')
                 return redirect('register')
             
             usuario = User.objects.create_user(
@@ -30,9 +54,11 @@ def register(request):
                 password=senha
             )
             usuario.save()
+            messages.success(request, f'Usuário {nome} cadastrado com sucesso!')
             return redirect('login')
     
     return render(request, 'users/register.html', {'form': form})
 
 def logout(request):
-    pass
+    auth.logout(request)
+    return redirect('index')
