@@ -36,29 +36,34 @@ def register(request):
         form = CadastroForms(request.POST)
         
         if form.is_valid():
-            if form["senha1"].value() != form["senha2"].value():
-                messages.error(request, 'As senhas não coincidem.')
-                return redirect('register')
-            
+           
             nome = form["nome_cadastro"].value()
             email = form["email"].value()
-            senha = form["senha1"].value()
+            senha = form["senha_1"].value()
             
             if User.objects.filter(username=nome).exists():
                 messages.error(request, 'Nome de usuário já existe.')
                 return redirect('register')
-            
-            usuario = User.objects.create_user(
-                username=nome,
-                email=email,
-                password=senha
-            )
-            usuario.save()
-            messages.success(request, f'Usuário {nome} cadastrado com sucesso!')
-            return redirect('login')
+           
+            try: 
+                usuario = User.objects.create_user(
+                    username=nome,
+                    email=email,
+                    password=senha
+                )
+                usuario.save()
+                messages.success(request, f'Usuário {nome} cadastrado com sucesso!')
+                print(f'Usuário {nome} cadastrado com sucesso!')
+                return redirect('login')
+                
+            except Exception as e:
+                    messages.error(request, f'Erro ao cadastrar usuário: {str(e)}')
+                    print(f'Erro ao cadastrar usuário: {str(e)}')
+                    return redirect('register')
     
     return render(request, 'users/register.html', {'form': form})
 
 def logout(request):
     auth.logout(request)
+    messages.success(request, 'Logout realizado com sucesso!')
     return redirect('index')
