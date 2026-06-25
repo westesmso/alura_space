@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from galeria.models import Fotografia
-from galeria.models import Carro
+from apps.galeria.models import Fotografia
+from apps.galeria.models import Carro
 
 
 class ListandoFotografias(admin.ModelAdmin):

@@ -1,6 +1,9 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.http import HttpResponse
-from galeria.models import Fotografia
+
+from apps.galeria.models import Fotografia
+
+from apps.galeria.forms import FotografiaForms
 
 from django.contrib import messages
 
@@ -33,3 +36,13 @@ def buscar(request):
             fotografias = fotografias.filter(nome__icontains=nome_a_buscar)
 
     return render (request, 'galeria/buscar.html', {'cards': fotografias})
+
+def nova_imagem(request):
+    form = FotografiaForms()
+    return render(request, 'galeria/nova_imagem.html', {'form': form})
+
+def editar_imagem(request, foto_id):
+    pass
+
+def deletar_imagem(request, foto_id):
+    pass

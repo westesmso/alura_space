@@ -39,6 +39,9 @@ var/
 wheels/
 share/python-wheels/
 *.egg-info/
+.vscode/
+.vscode
+.vscode/*
 .installed.cfg
 *.egg
 MANIFEST
